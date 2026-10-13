@@ -90,6 +90,42 @@ h3.sec{margin:22px 0 10px;font-size:18px}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--panel);border:2px solid var(--ok);color:var(--txt);padding:12px 18px;border-radius:10px;z-index:99;font-weight:700;box-shadow:0 8px 30px #000a;transition:opacity .4s}
 .chart{position:relative}.chart .tt{position:absolute;pointer-events:none;background:#060912;border:1px solid var(--line);border-radius:6px;padding:6px 8px;font-size:13px;white-space:nowrap;display:none}
 .note{font:900 72px Consolas,monospace;line-height:1}
+/* tri de la page + mobile */
+body{-webkit-text-size-adjust:100%}
+button{touch-action:manipulation}
+h3.grp{margin:26px 0 10px;font-size:15px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--line);padding-bottom:6px}
+h3.grp small{text-transform:none;letter-spacing:0;font-weight:400}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:16px}
+.step{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.step:first-of-type{border-top:0}
+.step .n{width:30px;height:30px;border-radius:50%;background:#060912;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font:700 14px Consolas,monospace;flex:none}
+.step.done .n{border-color:var(--ok);color:var(--ok)}.step.done{color:var(--dim)}
+.step .go{margin-left:auto;color:var(--acc);font-size:14px;white-space:nowrap}
+.srs-card{text-align:center;padding:10px 0}
+.srs-card .fiche{font-size:15px;color:var(--dim);margin-bottom:6px}
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.chip{background:#060912;border:1px solid var(--line);border-radius:20px;padding:4px 12px;font-size:13px;color:var(--dim);font-family:Consolas,monospace}
+.qcm{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qcm button{font-size:17px;padding:16px 10px;text-align:center}
+@media(max-width:600px){
+  main{padding:14px 12px}
+  header{padding:12px}header h1{font-size:22px}
+  .cards{grid-template-columns:1fr}
+  .card{padding:16px}
+  .prof-strip{gap:10px;padding:12px 14px;font-size:14px}
+  .question .big{font-size:30px}
+  .note{font-size:56px}
+  button{min-height:44px}
+  .qcm{grid-template-columns:1fr}
+  .fwbtns{flex-direction:column}.fwbtns button{width:100%}
+  .match{gap:12px}
+  .memgrid{grid-template-columns:repeat(2,1fr)}
+  .livret{grid-template-columns:repeat(2,1fr)}
+  table{font-size:12px}th,td{padding:6px 4px}
+  .packet .pt{font-size:40px}
+  input[type=text]{font-size:18px}
+  .grid2{gap:12px}
+}
 </style>
 </head>
 <body>
@@ -99,16 +135,32 @@ h3.sec{margin:22px 0 10px;font-size:18px}
 <!-- ACCUEIL -->
 <section id="home">
   <div class="prof-strip" id="home-prof" onclick="show('profile')"></div>
+  <div class="plan" id="home-plan"></div>
+
+  <h3 class="grp">1 · Pour apprendre <small>— la méthode, 10 min par jour suffisent</small></h3>
   <div class="cards">
-    <div class="card" onclick="show('ranked')" style="border-color:#b98cff"><div class="ico">🏆</div><h2>RANKED</h2><p>20 questions chronométrées, sans aide. Après chaque partie tu gagnes ou perds des points de rang, de Bronze à Diamant. La première partie te place.</p></div>
-    <div class="card" onclick="show('learn')" style="border-color:var(--ok)"><div class="ico">🧠</div><h2>Apprendre (commence ici)</h2><p>Les ports arrivent 4 par 4 avec une astuce pour les retenir. D'abord en QCM, puis tu les tapes toi-même. Ceux que tu rates reviennent plus souvent. Ta progression est sauvegardée.</p></div>
-    <div class="card" onclick="show('quiz')"><div class="ico">⌨️</div><h2>Port Quiz</h2><p>Un port s'affiche : tape le protocole. Un protocole s'affiche : tape son ou ses ports. La bonne réponse est donnée à chaque erreur.</p></div>
-    <div class="card" onclick="show('invaders')"><div class="ico">👾</div><h2>Port Invaders</h2><p>Les envahisseurs portent le nom d'un protocole. Tape le bon port pour tirer. Les <b style="color:var(--multi)">roses</b> ont plusieurs ports : il faut tous les donner pour les détruire.</p></div>
-    <div class="card" onclick="show('invaders','pig')" style="border-color:#ff9ecf"><div class="ico">🐷</div><h2>Porc Invaders</h2><p>Les porcs s'échappent de la ferme ! Chaque cochon porte le nom d'un protocole. Donne son port pour le rattraper au lasso. Plus il approche, plus son numéro devient visible sur son dos.</p></div>
-    <div class="card" onclick="show('match')"><div class="ico">🔗</div><h2>Relier par familles</h2><p>Relie chaque protocole à son port. Les manches sont groupées par familles (Mail, Web, Windows, Infra, VPN) pour retenir par association.</p></div>
-    <div class="card" onclick="show('memory')"><div class="ico">🃏</div><h2>Memory</h2><p>Retourne les cartes et retrouve les paires protocole ↔ port. Il faut se souvenir d'où était chaque carte.</p></div>
-    <div class="card" onclick="show('firewall')"><div class="ico">🛡️</div><h2>Pare-feu</h2><p>Tu es l'admin réseau. Lis la situation, puis autorise ou bloque chaque paquet qui arrive. Idéal pour l'oral.</p></div>
-    <div class="card" onclick="show('list')"><div class="ico">📋</div><h2>La liste</h2><p>Toute la liste à réviser avant de jouer.</p></div>
+    <div class="card" onclick="show('learn')" style="border-color:var(--ok)"><div class="ico">🧠</div><h2>Révision du jour</h2><p>Le cœur de la méthode. Chaque port revient <b>juste avant que tu l'oublies</b> : 1 jour, 3 jours, 1 semaine, 2 semaines… Tu dois le retrouver de tête, et quand tu te trompes tu réécris la bonne réponse. 6 nouveaux ports par jour, pas plus.</p></div>
+    <div class="card" onclick="show('firewall')"><div class="ico">🛡️</div><h2>Pare-feu</h2><p>Les ports dans une vraie situation d'admin réseau : « ce poste doit rejoindre le domaine AD ». C'est comme ça qu'on te les demandera à l'oral.</p></div>
+    <div class="card" onclick="show('match')"><div class="ico">🔗</div><h2>Relier par familles</h2><p>Relie protocole et port par familles. Sert à construire les liens : imap 143 → imaps 993, ftp 21 → ftps 990.</p></div>
+  </div>
+
+  <h3 class="grp">2 · Pour se tester <small>— sans aide, pour savoir où tu en es</small></h3>
+  <div class="cards">
+    <div class="card" onclick="show('ranked')" style="border-color:#b98cff"><div class="ico">🏆</div><h2>Ranked</h2><p>20 questions chronométrées. Gagne ou perds des points de rang, de Bronze à Diamant. À faire une fois par jour, pas plus.</p></div>
+    <div class="card" onclick="show('quiz')"><div class="ico">⌨️</div><h2>Port Quiz</h2><p>Révision libre, dans les deux sens, sans limite. Pratique la veille de l'oral.</p></div>
+  </div>
+
+  <h3 class="grp">3 · Pour le fun <small>— ça ne remplace pas la révision, c'est la récompense</small></h3>
+  <div class="cards">
+    <div class="card" onclick="show('invaders')"><div class="ico">👾</div><h2>Port Invaders</h2><p>Tape le port pour détruire l'envahisseur. 3 difficultés.</p></div>
+    <div class="card" onclick="show('invaders','pig')" style="border-color:#ff9ecf"><div class="ico">🐷</div><h2>Porc Invaders</h2><p>Le même, mais les cochons s'échappent de la ferme. Pur plaisir.</p></div>
+    <div class="card" onclick="show('memory')"><div class="ico">🃏</div><h2>Memory</h2><p>Les paires protocole ↔ port. Détente, avec un peu de mémoire.</p></div>
+  </div>
+
+  <h3 class="grp">Référence</h3>
+  <div class="cards">
+    <div class="card" onclick="show('list')"><div class="ico">📋</div><h2>La liste</h2><p>Les 33 lignes à connaître, telles quelles.</p></div>
+    <div class="card" onclick="show('profile')"><div class="ico">📊</div><h2>Mon profil</h2><p>Niveau, missions, courbe de progression et livret des ports.</p></div>
   </div>
 </section>
 
@@ -141,10 +193,10 @@ h3.sec{margin:22px 0 10px;font-size:18px}
   <div class="legend"><span style="color:var(--ok)">Vert</span> = 1 port · <span style="color:var(--multi)">Rose</span> = plusieurs ports (les pastilles montrent combien il en reste). Chaque port juste touche l'ennemi, il meurt quand tous ses ports sont donnés.</div>
 </section>
 
-<!-- APPRENDRE -->
+<!-- APPRENDRE / RÉVISION ESPACÉE -->
 <section id="learn" class="hidden">
-  <div class="bar"><div class="stats">Maîtrisés <b id="l-mast">0</b> / <b id="l-tot">0</b> · Débloqués <b id="l-unl">0</b></div>
-    <button class="sec" onclick="if(confirm('Remettre la progression à zéro ?')){localStorage.removeItem('portLearn');L.load();L.next();}">Recommencer</button></div>
+  <div class="bar"><div class="stats" id="l-stats"></div>
+    <button class="sec" onclick="show('home')">Pause</button></div>
   <div style="height:8px;background:var(--line);border-radius:4px;margin-bottom:16px"><div id="l-bar" style="height:100%;width:0;background:var(--ok);border-radius:4px;transition:.3s"></div></div>
   <div class="panel" id="l-panel"></div>
 </section>
@@ -311,71 +363,123 @@ const TIPS={
 };
 const ORDER=["ftp","ssh","telnet","smtp","DNS","http","https","bootps / bootpc","tftp","kerberos","pop3","ntp","imap","snmp","ldap","ldaps","microsoft-ds","ms-wbt-server","epmap","netbios-ns / dgm / ssn","imaps","pop3s","SMTP sécurisé","isakmp","ipsec-msft","ftps","MySQL","ms-sql-s","radius","nfsd","pptp","L2TP","OpenVPN"];
 const L=(()=>{
-  const P=document.getElementById("l-panel");
+  const NEW_PER_DAY=6,MAX_SESSION=24;
+  const P=()=>document.getElementById("l-panel");
   const items=ORDER.map(n=>DATA.find(e=>e.n===n));
-  let st,cur,prev;
-  function load(){try{st=JSON.parse(localStorage.getItem("portLearn"))}catch(e){}
-    if(!st||!st.lv)st={lv:{},unl:0};}
-  function save(){try{localStorage.setItem("portLearn",JSON.stringify(st))}catch(e){}}
-  const lv=e=>st.lv[e.n]||0;
-  function stats(){const m=items.filter(e=>lv(e)>=4).length;
-    document.getElementById("l-mast").textContent=m;document.getElementById("l-tot").textContent=items.length;
-    document.getElementById("l-unl").textContent=st.unl;document.getElementById("l-bar").style.width=(m/items.length*100)+"%";}
-  function next(){
-    stats();
-    const open=items.slice(0,st.unl);
-    // débloque 4 nouveaux quand tous les débloqués sont au niveau 2+
-    if(st.unl<items.length&&open.every(e=>lv(e)>=2)){
-      const neu=items.slice(st.unl,st.unl+4);st.unl+=neu.length;save();return intro(neu,0);}
-    // tirage pondéré : les niveaux faibles sortent beaucoup plus souvent
-    const pool=open.filter(e=>e!==prev);const w=pool.map(e=>[8,5,3,2,1,.5][Math.min(5,lv(e))]);
-    let r=Math.random()*w.reduce((a,b)=>a+b),i=0;while((r-=w[i])>0)i++;
-    cur=pool[i]||open[0];prev=cur;
-    lv(cur)<2?qcm(cur):typeQ(cur);
+  let queue=[],cur=null,total=0,done=0,okCount=0,t0;
+
+  const srs=()=>{if(!DB.d.srs)DB.d.srs={};return DB.d.srs;};
+  const addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);
+    return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
+  const dueCount=(k=today())=>items.filter(e=>srs()[e.n]&&srs()[e.n].due<=k).length;
+  const dueTomorrow=()=>items.filter(e=>srs()[e.n]&&srs()[e.n].due===addDays(1)).length;
+  const ancres=()=>items.filter(e=>srs()[e.n]&&srs()[e.n].iv>=7).length;
+
+  function next(){ // appelé par show('learn')
+    const S=srs(),t=DB.day();
+    const due=items.filter(e=>S[e.n]&&S[e.n].due<=today());
+    const left=Math.max(0,NEW_PER_DAY-(t.stats.srs_new||0));
+    const fresh=items.filter(e=>!S[e.n]).slice(0,left);
+    if(!due.length&&!fresh.length)return allDone();
+    // on mélange les familles (entrelacement) plutôt que de réviser par paquets
+    queue=shuffle(due).slice(0,MAX_SESSION-fresh.length).map(e=>({e}));
+    fresh.forEach((e,i)=>queue.splice(Math.min(queue.length,i*3),0,{e,isNew:true}));
+    total=queue.length;done=0;okCount=0;step();
   }
-  const card=e=>`<div class="question"><div class="big">${e.n}</div><div class="big" style="color:var(--ok)">${portsTxt(e)}</div><div class="hint">${e.d}</div></div>
-    <div class="feedback" style="background:rgba(77,210,255,.08);color:var(--txt)">💡 ${TIPS[e.n]||""}</div>`;
-  function intro(neu,k){
-    const e=neu[k];
-    P.innerHTML=`<div class="lbl" style="color:var(--dim);text-align:center">Nouveau ${k+1}/${neu.length} — lis et retiens</div>${card(e)}
-      <div style="text-align:center;margin-top:16px"><button id="l-go">${k<neu.length-1?"Suivant":"Je m'entraîne"} (Entrée)</button></div>`;
-    const go=document.getElementById("l-go");go.focus();
-    go.onclick=()=>k<neu.length-1?intro(neu,k+1):next();
+  function hud(){
+    document.getElementById("l-stats").innerHTML=`Carte <b>${Math.min(done+1,total)}/${total}</b> · Justes <b>${okCount}</b> · Ancrés <b>${ancres()}/${items.length}</b>`;
+    document.getElementById("l-bar").style.width=(done/Math.max(1,total)*100)+"%";
   }
-  function result(e,ok){
-    st.lv[e.n]=ok?lv(e)+1:0;save();stats();DB.seen(e,ok);if(ok){DB.stat('learn_ok');DB.best('learn',items.filter(x=>lv(x)>=4).length);}
-    P.insertAdjacentHTML("beforeend",`<div class="feedback ${ok?"ok":"bad"}">${ok?"✔ Correct !":"✘ Raté — la réponse :"} <span class="ans">${e.n} → ${portsTxt(e)}</span>
-      ${ok?"":`<br>💡 ${TIPS[e.n]||""}`}</div><div style="text-align:center;margin-top:12px"><button id="l-nx">Continuer (Entrée)</button></div>`);
-    const b=document.getElementById("l-nx");setTimeout(()=>b.focus(),300);b.onclick=next;
+  function allDone(){
+    document.getElementById("l-stats").innerHTML=`Ancrés <b>${ancres()}/${items.length}</b>`;
+    document.getElementById("l-bar").style.width="100%";
+    const dem=dueTomorrow(),vus=items.filter(e=>srs()[e.n]).length;
+    P().innerHTML=`<div style="text-align:center"><div style="font-size:46px">✅</div><h2 style="margin:6px 0">Révision du jour terminée</h2>
+      <p style="color:var(--dim);max-width:520px;margin:0 auto 14px;line-height:1.6">Tu as vu ${vus}/${items.length} ports. Prochaine session : <b style="color:var(--txt)">${dem} carte(s) demain</b>.<br>
+      Revenir demain vaut mieux que d'enchaîner aujourd'hui : c'est l'oubli partiel qui fixe la mémoire.</p>
+      <div class="chips"><span class="chip">Ancrés : ${ancres()}</span><span class="chip">Vus : ${vus}</span><span class="chip">À revoir demain : ${dem}</span></div>
+      <p style="margin-top:18px">En attendant, les jeux qui font travailler autrement :</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button onclick="show('firewall')">🛡️ Pare-feu</button><button class="sec" onclick="show('match')">🔗 Relier</button><button class="sec" onclick="show('ranked')">🏆 Ranked</button></div>
+      <p style="margin-top:16px"><button class="sec" id="l-ahead">Réviser quand même 10 cartes en avance</button></p></div>`;
+    document.getElementById("l-ahead").onclick=()=>{
+      const S=srs();queue=shuffle(items.filter(e=>S[e.n])).slice(0,10).map(e=>({e,ahead:true}));
+      total=queue.length;done=0;okCount=0;step();};
   }
-  function qcm(e){
+  function step(){
+    if(!queue.length)return next();
+    cur=queue.shift();hud();
+    cur.isNew&&!cur.shown?fiche():question();
+  }
+  function fiche(){
+    const e=cur.e;cur.shown=true;
+    P().innerHTML=`<div class="srs-card"><div class="fiche">🆕 Nouveau port — lis-le, puis on te le demandera</div>
+      <div class="big" style="font-size:38px">${e.n}</div><div class="big" style="color:var(--ok);font-size:38px">${portsTxt(e)}</div>
+      <div class="hint">${e.d}</div></div>
+      <div class="feedback" style="background:rgba(77,210,255,.08);color:var(--txt)">💡 ${TIPS[e.n]||""}</div>
+      <div style="text-align:center;margin-top:16px"><button id="l-go">J'ai lu (Entrée)</button></div>`;
+    const b=document.getElementById("l-go");setTimeout(()=>b.focus(),150);
+    b.onclick=()=>{queue.unshift(cur);step();};
+  }
+  function question(){
+    const e=cur.e,S=srs(),st=S[e.n],reps=st?st.reps:0;
+    // QCM tant que c'est tout neuf, saisie ensuite : on augmente l'effort au fur et à mesure
+    const mode=reps<1?"qcm":"type";
     const p2n=Math.random()<.5,port=rnd(e.p);
-    const others=items.slice(0,Math.max(st.unl,8)).filter(x=>x!==e).sort(()=>Math.random()-.5).slice(0,3);
-    const ch=[e,...others].sort(()=>Math.random()-.5);
-    P.innerHTML=`<div class="question"><div class="lbl">${p2n?"Quel protocole utilise le port…":"Quel(s) port(s) pour…"}</div>
-      <div class="big">${p2n?port:e.n}</div><div class="hint">QCM — touches 1 à 4 ou clic</div></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${ch.map((c,i)=>`<button class="sec" data-i="${i}" style="font-size:18px;padding:16px">${i+1}. ${p2n?c.n:c.p.join(" et ")}</button>`).join("")}</div>`;
-    let done=false;
-    const pick=i=>{if(done)return;done=true;document.onkeydown=null;
-      P.querySelectorAll("[data-i]").forEach(b=>{const c=ch[b.dataset.i];if(c===e)b.style.background="var(--ok)",b.style.color="#001";else if(+b.dataset.i===i)b.style.background="var(--bad)";});
-      result(e,ch[i]===e);};
-    P.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>pick(+b.dataset.i));
-    document.onkeydown=ev=>{if(document.getElementById("learn").classList.contains("hidden")){document.onkeydown=null;return;}
-      if(ev.key>="1"&&ev.key<="4")pick(+ev.key-1);};
+    t0=Date.now();
+    const head=`<div class="question"><div class="lbl">${p2n?"Quel protocole utilise le port…":"Quel(s) port(s) pour…"}</div>
+      <div class="big">${p2n?port:e.n}</div><div class="hint">${mode==="qcm"?"Touches 1 à 4 ou clic":(!p2n&&e.p.length>1?`${e.p.length} ports à donner`:"De tête, sans regarder")}</div></div>`;
+    if(mode==="qcm"){
+      const others=shuffle(items.filter(x=>x!==e&&(srs()[x.n]||true))).slice(0,3);
+      const ch=shuffle([e,...others]);
+      P().innerHTML=head+`<div class="qcm">${ch.map((c,i)=>`<button class="sec" data-i="${i}">${i+1}. ${p2n?c.n:c.p.join(" et ")}</button>`).join("")}</div>`;
+      let used=false;
+      const pick=i=>{if(used)return;used=true;document.onkeydown=null;
+        P().querySelectorAll("[data-i]").forEach(b=>{if(ch[b.dataset.i]===e){b.style.background="var(--ok)";b.style.color="#001";}else if(+b.dataset.i===i)b.style.background="var(--bad)";});
+        grade(ch[i]===e);};
+      P().querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>pick(+b.dataset.i));
+      document.onkeydown=ev=>{if(document.getElementById("learn").classList.contains("hidden")){document.onkeydown=null;return;}
+        if(ev.key>="1"&&ev.key<="4")pick(+ev.key-1);};
+    }else{
+      P().innerHTML=head+`<input type="text" id="l-in" autocomplete="off" inputmode="${p2n?"text":"numeric"}" placeholder="Ta réponse puis Entrée">`;
+      const I=document.getElementById("l-in");I.focus();
+      I.onkeydown=ev=>{if(ev.key!=="Enter"||!I.value.trim())return;I.disabled=true;
+        grade(p2n?(e.a.includes(norm(I.value))||norm(e.n)===norm(I.value))
+               :[...new Set(nums(I.value))].sort((a,b)=>a-b).join()===[...e.p].sort((a,b)=>a-b).join());};
+    }
   }
-  function typeQ(e){
-    const p2n=Math.random()<.4,port=rnd(e.p);
-    P.innerHTML=`<div class="question"><div class="lbl">${p2n?"Quel protocole utilise le port…":"Quel(s) port(s) pour…"}</div>
-      <div class="big">${p2n?port:e.n}</div><div class="hint">${!p2n&&e.p.length>1?`⚠ ${e.p.length} ports à donner`:"À toi de l'écrire"}</div></div>
-      <input type="text" id="l-in" autocomplete="off" placeholder="Ta réponse puis Entrée">`;
-    const I=document.getElementById("l-in");I.focus();
-    I.onkeydown=ev=>{if(ev.key!=="Enter"||!I.value.trim())return;I.disabled=true;
-      const ok=p2n?(e.a.includes(norm(I.value))||norm(e.n)===norm(I.value))
-        :[...new Set(nums(I.value))].sort((a,b)=>a-b).join()===[...e.p].sort((a,b)=>a-b).join();
-      result(e,ok);};
+  // planification : intervalles qui s'allongent, et retour à zéro en cas d'oubli
+  function schedule(e,ok,sec){
+    const S=srs();const st=S[e.n]||(S[e.n]={ease:2.5,iv:0,due:today(),reps:0,lapses:0});
+    if(ok){
+      st.reps++;st.ease=Math.min(2.8,st.ease+(sec<6?.1:-.05));
+      st.iv=st.reps===1?1:st.reps===2?3:Math.round(st.iv*st.ease);
+      st.due=addDays(st.iv);
+    }else{st.lapses++;st.reps=0;st.iv=0;st.ease=Math.max(1.3,st.ease-.2);st.due=today();}
+    DB.save();
   }
-  load();
-  return {next,load};
+  function grade(ok){
+    const e=cur.e,sec=(Date.now()-t0)/1000,isNew=!srs()[e.n];
+    if(isNew)DB.stat("srs_new");
+    schedule(e,ok,sec);DB.seen(e,ok);
+    if(ok){okCount++;DB.stat("learn_ok");DB.best("learn",ancres());done++;hud();
+      P().insertAdjacentHTML("beforeend",`<div class="feedback ok">✔ <span class="ans">${e.n} → ${portsTxt(e)}</span> — revu dans ${srs()[e.n].iv} jour(s)<br><small>💡 ${TIPS[e.n]||e.d}</small></div>
+        <div style="text-align:center;margin-top:12px"><button id="l-nx">Continuer (Entrée)</button></div>`);
+      const b=document.getElementById("l-nx");setTimeout(()=>b.focus(),250);b.onclick=step;
+    }else{
+      // erreur : on réécrit la bonne réponse (ça ancre bien mieux que de simplement la lire)
+      P().insertAdjacentHTML("beforeend",`<div class="feedback bad">✘ Raté. La réponse : <span class="ans">${e.n} → ${portsTxt(e)}</span><br><small>💡 ${TIPS[e.n]||e.d}</small></div>
+        <div style="margin-top:12px"><div class="hint" style="margin-bottom:6px">Réécris-la pour l'ancrer : tape <b>${e.p.join(" ")}</b></div>
+        <input type="text" id="l-fix" autocomplete="off" inputmode="numeric" placeholder="${e.p.join(" ")}"></div>`);
+      const F=document.getElementById("l-fix");setTimeout(()=>F.focus(),250);
+      F.onkeydown=ev=>{if(ev.key!=="Enter")return;
+        if([...new Set(nums(F.value))].sort((a,b)=>a-b).join()===[...e.p].sort((a,b)=>a-b).join()){
+          F.disabled=true;done++;queue.splice(Math.min(queue.length,3),0,{e});step();
+        }else{F.style.borderColor="var(--bad)";F.value="";}};
+    }
+  }
+  const newLeft=()=>Math.max(0,NEW_PER_DAY-(DB.day().stats.srs_new||0))&&Math.min(Math.max(0,NEW_PER_DAY-(DB.day().stats.srs_new||0)),items.filter(e=>!srs()[e.n]).length);
+  return {next,load:()=>{},dueCount,dueTomorrow,ancres,newLeft,todo:()=>dueCount()+newLeft()};
 })();
 
 // ---------- BASE DE DONNÉES (localStorage) ----------
@@ -445,13 +549,21 @@ const rankHTML=rp=>{const r=rankOf(rp);return `<span class="rank" style="color:$
 
 // ---------- ACCUEIL : bandeau profil ----------
 function renderHome(){
-  const L=DB.level(),t=DB.day(),rp=DB.d.ranked.rp;
-  document.getElementById("home-prof").innerHTML=`<div class="lvl">${L.l}</div>
-    <div style="flex:1;min-width:180px"><b>Niveau ${L.l}</b> <span style="color:var(--dim);font-size:13px">${L.cur}/${L.next} XP · 🔥 ${DB.streak()} jour(s) d'affilée</span>
-      <div class="xpbar"><div style="width:${L.cur/L.next*100}%"></div></div></div>
+  const LV=DB.level(),t=DB.day(),rp=DB.d.ranked.rp;
+  document.getElementById("home-prof").innerHTML=`<div class="lvl">${LV.l}</div>
+    <div style="flex:1;min-width:180px"><b>Niveau ${LV.l}</b> <span style="color:var(--dim);font-size:13px">${LV.cur}/${LV.next} XP · 🔥 ${DB.streak()} jour(s) d'affilée</span>
+      <div class="xpbar"><div style="width:${LV.cur/LV.next*100}%"></div></div></div>
     ${rankHTML(rp)}
     <div style="font-family:Consolas,monospace">🎯 Missions <b style="color:${t.done.length===4?"var(--ok)":"var(--txt)"}">${t.done.length}/4</b></div>
     <span style="color:var(--acc);font-size:14px">Voir mon profil →</span>`;
+  const st=t.stats||{};
+  const steps=[
+    {t:L.todo()?`Révision du jour — <b>${L.dueCount()}</b> à revoir, <b>${L.newLeft()}</b> nouveau(x)`:"Révision du jour — tout est à jour ✨",s:"learn",done:L.todo()===0,go:"Réviser"},
+    {t:"Une situation de Pare-feu",s:"firewall",done:(st.fw_scn||0)>=1,go:"Jouer"},
+    {t:"Une partie Ranked pour mesurer",s:"ranked",done:(st.ranked_played||0)>=1,go:"Se tester"},
+  ];
+  document.getElementById("home-plan").innerHTML=`<b>🗓️ Ton programme du jour</b> <span style="color:var(--dim);font-size:13px">— 10 à 15 minutes</span>
+    ${steps.map((x,i)=>`<div class="step ${x.done?"done":""}" onclick="show('${x.s}')"><div class="n">${x.done?"✔":i+1}</div><div>${x.t}</div><div class="go">${x.done?"refaire":x.go+" →"}</div></div>`).join("")}`;
 }
 
 // ---------- PROFIL ----------
