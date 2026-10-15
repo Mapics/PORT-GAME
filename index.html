@@ -171,6 +171,7 @@ h3.grp small{text-transform:none;letter-spacing:0;font-weight:400}
       <button data-m="mix" class="on">Mélange</button>
       <button data-m="p2n">Port → Protocole</button>
       <button data-m="n2p">Protocole → Port</button>
+      <button data-m="use">🎓 Rôle → Protocole</button>
     </div>
     <div class="stats">Score <b id="q-score">0</b> / <b id="q-total">0</b> · Série <b id="q-streak">0</b></div>
   </div>
@@ -238,39 +239,39 @@ h3.grp small{text-transform:none;letter-spacing:0;font-weight:400}
 <script>
 // ---------- DONNÉES ----------
 const DATA = [
- {n:"bootps / bootpc",p:[67,68],a:["bootps","bootpc","bootp","dhcp","dhcps","dhcpc"],t:"udp",d:"Bootstrap Protocol Server (67) et Client (68) — alias dhcps/dhcpc"},
- {n:"DNS",p:[53],a:["dns","domain"],t:"tcp et udp",d:"Domain Name Server"},
- {n:"epmap",p:[135],a:["epmap","loc-srv","rpc"],t:"tcp et udp",d:"DCE endpoint resolution / RPC — alias loc-srv"},
- {n:"ftp",p:[20,21],a:["ftp"],t:"tcp",d:"FTP — 20 data, 21 control"},
- {n:"ftps",p:[989,990],a:["ftps"],t:"tcp",d:"FTP over TLS/SSL — 989 data, 990 control"},
- {n:"http",p:[80],a:["http","www-http","www"],t:"tcp",d:"World Wide Web — alias www-http"},
- {n:"https",p:[443],a:["https"],t:"tcp et udp",d:"HTTP over TLS/SSL"},
- {n:"imap",p:[143],a:["imap","imap4"],t:"tcp",d:"Internet Message Access Protocol — alias imap4"},
- {n:"imaps",p:[993],a:["imaps"],t:"tcp",d:"IMAP4 over TLS/SSL"},
- {n:"ipsec-msft",p:[4500],a:["ipsec-msft","ipsec","ipsec nat-t","nat-t"],t:"tcp et udp",d:"Microsoft IPsec NAT-T"},
- {n:"isakmp",p:[500],a:["isakmp","ike"],t:"udp",d:"Internet Key Exchange — alias ike"},
- {n:"kerberos",p:[88],a:["kerberos","krb5","kerberos-sec"],t:"tcp et udp",d:"Kerberos — alias krb5, kerberos-sec"},
- {n:"ldap",p:[389],a:["ldap"],t:"tcp",d:"Lightweight Directory Access Protocol"},
- {n:"ldaps",p:[636],a:["ldaps","sldap"],t:"tcp",d:"LDAP over TLS/SSL — alias sldap"},
- {n:"microsoft-ds",p:[445],a:["microsoft-ds","smb"],t:"tcp et udp",d:"SMB (serveur de fichiers Windows)"},
- {n:"ms-sql-s",p:[1433],a:["ms-sql-s","mssql","ms-sql","sql server"],t:"tcp et udp",d:"Microsoft SQL Server"},
- {n:"ms-wbt-server",p:[3389],a:["ms-wbt-server","rdp"],t:"tcp et udp",d:"MS WBT Server / RDP"},
- {n:"MySQL",p:[3306],a:["mysql"],t:"tcp",d:"MySQL"},
- {n:"netbios-ns / dgm / ssn",p:[137,138,139],a:["netbios","netbios-ns","netbios-dgm","netbios-ssn","nbname"],t:"tcp et udp",d:"NetBIOS — 137 Name, 138 Datagram, 139 Session"},
- {n:"nfsd",p:[2049],a:["nfsd","nfs"],t:"udp",d:"NFS server — alias nfs"},
- {n:"ntp",p:[123],a:["ntp"],t:"udp",d:"Network Time Protocol"},
- {n:"pop3",p:[110],a:["pop3","pop"],t:"tcp",d:"Post Office Protocol v3"},
- {n:"pop3s",p:[995],a:["pop3s","spop3"],t:"tcp et udp",d:"POP3 over TLS/SSL — alias spop3"},
- {n:"radius",p:[1812,1813],a:["radius"],t:"udp",d:"RADIUS — 1812 demande d'accès, 1813 connexion srv (accounting)"},
- {n:"smtp",p:[25],a:["smtp","mail"],t:"tcp",d:"Simple Mail Transfer Protocol — alias mail"},
- {n:"SMTP sécurisé",p:[465,587],a:["smtp securise","smtps","smtp secure","submission"],t:"tcp",d:"SMTP client → serveur (465 et 587)"},
- {n:"snmp",p:[161],a:["snmp"],t:"udp",d:"SNMP"},
- {n:"ssh",p:[22],a:["ssh"],t:"tcp",d:"SSH Remote Login Protocol"},
- {n:"telnet",p:[23],a:["telnet"],t:"tcp",d:"Telnet"},
- {n:"tftp",p:[69],a:["tftp"],t:"udp",d:"Trivial File Transfer"},
- {n:"pptp",p:[1723],a:["pptp"],t:"tcp",d:"PPTP"},
- {n:"L2TP",p:[1701],a:["l2tp"],t:"udp",d:"L2TP"},
- {n:"OpenVPN",p:[1194],a:["openvpn"],t:"",d:"OpenVPN"},
+ {n:"bootps / bootpc",p:[67,68],a:["bootps","bootpc","bootp","dhcp","dhcps","dhcpc"],t:"udp",d:"Bootstrap Protocol Server (67) et Client (68) — alias dhcps/dhcpc",w:"<b>DHCP</b> (Dynamic Host Configuration Protocol) : distribue automatiquement aux postes leur adresse IP, masque, passerelle et serveur DNS. 67 = le serveur écoute, 68 = le client répond."},
+ {n:"DNS",p:[53],a:["dns","domain"],t:"tcp et udp",d:"Domain Name Server",w:"<b>Domain Name System</b> : traduit un nom (www.site.fr) en adresse IP. Quand il tombe, tout semble en panne alors que le réseau fonctionne."},
+ {n:"epmap",p:[135],a:["epmap","loc-srv","rpc"],t:"tcp et udp",d:"DCE endpoint resolution / RPC — alias loc-srv",w:"<b>RPC End Point Mapper</b> : annuaire des services Windows. Le client lui demande sur quel port joindre un service. Base de l'Active Directory et de WMI."},
+ {n:"ftp",p:[20,21],a:["ftp"],t:"tcp",d:"FTP — 20 data, 21 control",w:"<b>File Transfer Protocol</b> : transfert de fichiers, <b>en clair</b>. 21 porte les commandes, 20 les données."},
+ {n:"ftps",p:[989,990],a:["ftps"],t:"tcp",d:"FTP over TLS/SSL — 989 data, 990 control",w:"<b>FTP over TLS</b> : le même FTP, mais chiffré. À ne pas confondre avec <b>SFTP</b>, qui passe par SSH sur le port 22."},
+ {n:"http",p:[80],a:["http","www-http","www"],t:"tcp",d:"World Wide Web — alias www-http",w:"<b>HyperText Transfer Protocol</b> : consultation des pages web, en clair."},
+ {n:"https",p:[443],a:["https"],t:"tcp et udp",d:"HTTP over TLS/SSL",w:"<b>HTTP + TLS</b> : web chiffré. Le certificat prouve en plus l'identité du serveur."},
+ {n:"imap",p:[143],a:["imap","imap4"],t:"tcp",d:"Internet Message Access Protocol — alias imap4",w:"<b>Internet Message Access Protocol</b> : lit les mails en les laissant sur le serveur, donc synchronisés entre tous les appareils."},
+ {n:"imaps",p:[993],a:["imaps"],t:"tcp",d:"IMAP4 over TLS/SSL",w:"<b>IMAP chiffré par TLS</b> : même rôle, en sécurisé."},
+ {n:"ipsec-msft",p:[4500],a:["ipsec-msft","ipsec","ipsec nat-t","nat-t"],t:"tcp et udp",d:"Microsoft IPsec NAT-T",w:"<b>IPsec NAT-T</b> (NAT Traversal) : encapsule IPsec dans de l'UDP pour qu'il puisse traverser une box qui fait du NAT."},
+ {n:"isakmp",p:[500],a:["isakmp","ike"],t:"udp",d:"Internet Key Exchange — alias ike",w:"<b>IKE / ISAKMP</b> : négocie les clés et le chiffrement d'un tunnel IPsec, avant que les données circulent."},
+ {n:"kerberos",p:[88],a:["kerberos","krb5","kerberos-sec"],t:"tcp et udp",d:"Kerberos — alias krb5, kerberos-sec",w:"Authentification d'<b>Active Directory</b> par tickets : prouve ton identité sans jamais transmettre ton mot de passe. Très sensible à l'heure : 5 minutes d'écart et ça échoue."},
+ {n:"ldap",p:[389],a:["ldap"],t:"tcp",d:"Lightweight Directory Access Protocol",w:"<b>Lightweight Directory Access Protocol</b> : interroge l'annuaire (utilisateurs, groupes, ordinateurs), en clair."},
+ {n:"ldaps",p:[636],a:["ldaps","sldap"],t:"tcp",d:"LDAP over TLS/SSL — alias sldap",w:"<b>LDAP chiffré par TLS</b> : obligatoire pour certaines opérations, comme changer un mot de passe."},
+ {n:"microsoft-ds",p:[445],a:["microsoft-ds","smb"],t:"tcp et udp",d:"SMB (serveur de fichiers Windows)",w:"<b>SMB</b> (Server Message Block) : partage de fichiers et d'imprimantes Windows, et distribution des GPO. À ne jamais exposer sur internet : c'est la porte de WannaCry."},
+ {n:"ms-sql-s",p:[1433],a:["ms-sql-s","mssql","ms-sql","sql server"],t:"tcp et udp",d:"Microsoft SQL Server",w:"Moteur de base de données <b>Microsoft SQL Server</b>."},
+ {n:"ms-wbt-server",p:[3389],a:["ms-wbt-server","rdp"],t:"tcp et udp",d:"MS WBT Server / RDP",w:"<b>RDP</b> (Remote Desktop Protocol) : prise de contrôle du bureau Windows à distance."},
+ {n:"MySQL",p:[3306],a:["mysql"],t:"tcp",d:"MySQL",w:"Base de données <b>MySQL / MariaDB</b>, derrière la plupart des sites web."},
+ {n:"netbios-ns / dgm / ssn",p:[137,138,139],a:["netbios","netbios-ns","netbios-dgm","netbios-ssn","nbname"],t:"tcp et udp",d:"NetBIOS — 137 Name, 138 Datagram, 139 Session",w:"Ancienne résolution de noms Windows, avant le DNS. 137 = noms, 138 = annonces, 139 = sessions de partage."},
+ {n:"nfsd",p:[2049],a:["nfsd","nfs"],t:"udp",d:"NFS server — alias nfs",w:"<b>Network File System</b> : le partage de fichiers du monde Unix/Linux, l'équivalent de SMB côté Windows."},
+ {n:"ntp",p:[123],a:["ntp"],t:"udp",d:"Network Time Protocol",w:"<b>Network Time Protocol</b> : synchronise l'horloge des machines. Indispensable à Kerberos et à la lecture des journaux."},
+ {n:"pop3",p:[110],a:["pop3","pop"],t:"tcp",d:"Post Office Protocol v3",w:"<b>Post Office Protocol v3</b> : télécharge les mails puis les efface du serveur. Un seul appareil, contrairement à IMAP."},
+ {n:"pop3s",p:[995],a:["pop3s","spop3"],t:"tcp et udp",d:"POP3 over TLS/SSL — alias spop3",w:"<b>POP3 chiffré par TLS</b>."},
+ {n:"radius",p:[1812,1813],a:["radius"],t:"udp",d:"RADIUS — 1812 demande d'accès, 1813 connexion srv (accounting)",w:"<b>Remote Authentication Dial-In User Service</b> : authentifie les accès Wi-Fi, VPN et 802.1X auprès d'un annuaire. 1812 = authentification, 1813 = comptabilité (durée, volume)."},
+ {n:"smtp",p:[25],a:["smtp","mail"],t:"tcp",d:"Simple Mail Transfer Protocol — alias mail",w:"<b>Simple Mail Transfer Protocol</b> : envoi et relais du courrier entre serveurs de messagerie."},
+ {n:"SMTP sécurisé",p:[465,587],a:["smtp securise","smtps","smtp secure","submission"],t:"tcp",d:"SMTP client → serveur (465 et 587)",w:"Envoi du <b>client vers son serveur</b> : 587 avec STARTTLS (le standard) et 465 en TLS direct."},
+ {n:"snmp",p:[161],a:["snmp"],t:"udp",d:"SNMP",w:"<b>Simple Network Management Protocol</b> : supervision des équipements (état, charge, interfaces). Les alertes « traps » partent, elles, sur le 162."},
+ {n:"ssh",p:[22],a:["ssh"],t:"tcp",d:"SSH Remote Login Protocol",w:"<b>Secure Shell</b> : administration à distance en ligne de commande, chiffrée. Sert aussi à SFTP et aux tunnels."},
+ {n:"telnet",p:[23],a:["telnet"],t:"tcp",d:"Telnet",w:"L'ancêtre de SSH : console à distance <b>en clair</b>, mot de passe lisible sur le réseau. À bannir."},
+ {n:"tftp",p:[69],a:["tftp"],t:"udp",d:"Trivial File Transfer",w:"<b>Trivial FTP</b> : transfert minimal, sans authentification, sur UDP. Sert au boot PXE et aux sauvegardes de configuration des équipements."},
+ {n:"pptp",p:[1723],a:["pptp"],t:"tcp",d:"PPTP",w:"<b>Point-to-Point Tunneling Protocol</b> : vieux VPN Microsoft, chiffrement cassé depuis longtemps. À éviter."},
+ {n:"L2TP",p:[1701],a:["l2tp"],t:"udp",d:"L2TP",w:"<b>Layer 2 Tunneling Protocol</b> : VPN qui ne chiffre rien tout seul, presque toujours couplé à IPsec (L2TP/IPsec)."},
+ {n:"OpenVPN",p:[1194],a:["openvpn"],t:"",d:"OpenVPN",w:"VPN open source basé sur TLS. UDP 1194 par défaut, TCP possible."},
 ];
 const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().trim().replace(/\s+/g," ");
 const nums = s => (s.match(/\d+/g)||[]).map(Number);
@@ -282,6 +283,7 @@ function show(id,theme){
   ["home","quiz","invaders","list","learn","match","memory","firewall","profile","ranked"].forEach(s=>document.getElementById(s).classList.toggle("hidden",s!==id));
   SI.stop();
   if(id==="learn")L.next();
+  if(id==="list")renderList();
   FW.stop();RK.stop();
   if(id==="home")renderHome();
   if(id==="profile")renderProfile();
@@ -294,8 +296,8 @@ function show(id,theme){
 }
 
 // ---------- LISTE ----------
-document.getElementById("tbl").innerHTML="<tr><th>Service</th><th>Port(s)</th><th>Description</th></tr>"+
-  DATA.map(e=>`<tr><td><b>${e.n}</b></td><td class="p">${portsTxt(e)}</td><td>${e.d}</td></tr>`).join("");
+function renderList(){document.getElementById("tbl").innerHTML="<tr><th>Service</th><th>Port(s)</th><th>À quoi ça sert</th></tr>"+
+  DATA.map(e=>`<tr><td><b>${e.n}</b></td><td class="p">${portsTxt(e)}</td><td>${e.w||e.d}<br><small style="color:var(--dim)">💡 ${TIPS[e.n]||""}</small></td></tr>`).join("");}
 
 // ---------- QUIZ ----------
 let qMode="mix",cur=null,qAnswered=false,qS=0,qT=0,qStreak=0,last=null;
@@ -304,10 +306,11 @@ document.querySelectorAll(".modes button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".modes button").forEach(x=>x.classList.remove("on"));b.classList.add("on");qMode=b.dataset.m;nextQ();qIn.focus();});
 function nextQ(){
   let e;do e=rnd(DATA);while(e===last);last=e;
-  const type=qMode==="mix"?rnd(["p2n","n2p"]):qMode;
+  const type=qMode==="mix"?rnd(["p2n","n2p","use"]):qMode;
   cur={e,type,port:rnd(e.p)};qAnswered=false;qIn.value="";qFb.className="feedback";qFb.innerHTML="";
   const L=document.getElementById("q-lbl"),B=document.getElementById("q-big"),H=document.getElementById("q-hint");
-  if(type==="p2n"){L.textContent="Quel protocole utilise le port…";B.textContent=cur.port;H.textContent="Nom ou alias accepté";}
+  if(type==="use"){L.textContent="Quel protocole fait ça ?";B.innerHTML=`<span style="font-size:20px;font-weight:600;line-height:1.5">${(e.w||e.d).replace(/<\/?b>/g,"")}</span>`;H.textContent="Donne son nom (ou son port, les deux comptent)";}
+  else if(type==="p2n"){L.textContent="Quel protocole utilise le port…";B.textContent=cur.port;H.textContent="Nom ou alias accepté";}
   else{L.textContent="Quel(s) port(s) pour…";B.textContent=e.n;
     H.textContent=e.p.length>1?`⚠ ${e.p.length} ports à donner (séparés par un espace)`:"Un seul port";}
 }
@@ -316,11 +319,12 @@ qIn.addEventListener("keydown",ev=>{
   if(qAnswered){nextQ();return;}
   if(!qIn.value.trim())return;
   const e=cur.e;let ok;
-  if(cur.type==="p2n")ok=e.a.includes(norm(qIn.value))||norm(e.n)===norm(qIn.value);
+  if(cur.type==="p2n"||cur.type==="use")ok=e.a.includes(norm(qIn.value))||norm(e.n)===norm(qIn.value)
+      ||(cur.type==="use"&&nums(qIn.value).length&&nums(qIn.value).every(x=>e.p.includes(x)));
   else{const g=[...new Set(nums(qIn.value))].sort((a,b)=>a-b);ok=g.join()===[...e.p].sort((a,b)=>a-b).join();}
   qAnswered=true;qT++;DB.seen(e,ok);if(ok){DB.stat('quiz_ok');DB.best('quiz',qS+1);}
-  if(ok){qS++;qStreak++;qFb.className="feedback ok";qFb.innerHTML=`✔ Correct ! <span class="ans">${e.n} → ${portsTxt(e)}</span><br><small>${e.d}</small>`;}
-  else{qStreak=0;qFb.className="feedback bad";qFb.innerHTML=`✘ Raté. La réponse : <span class="ans">${e.n} → ${portsTxt(e)}</span><br><small>${e.d}</small>`;}
+  if(ok){qS++;qStreak++;qFb.className="feedback ok";qFb.innerHTML=`✔ Correct ! <span class="ans">${e.n} → ${portsTxt(e)}</span><br><small>🎓 ${e.w||e.d}</small>`;}
+  else{qStreak=0;qFb.className="feedback bad";qFb.innerHTML=`✘ Raté. La réponse : <span class="ans">${e.n} → ${portsTxt(e)}</span><br><small>🎓 ${e.w||e.d}</small><br><small>💡 ${TIPS[e.n]||""}</small>`;}
   qFb.innerHTML+="<br><small style='color:var(--dim)'>Entrée pour continuer</small>";
   document.getElementById("q-score").textContent=qS;document.getElementById("q-total").textContent=qT;document.getElementById("q-streak").textContent=qStreak;
 });
@@ -363,75 +367,110 @@ const TIPS={
 };
 const ORDER=["ftp","ssh","telnet","smtp","DNS","http","https","bootps / bootpc","tftp","kerberos","pop3","ntp","imap","snmp","ldap","ldaps","microsoft-ds","ms-wbt-server","epmap","netbios-ns / dgm / ssn","imaps","pop3s","SMTP sécurisé","isakmp","ipsec-msft","ftps","MySQL","ms-sql-s","radius","nfsd","pptp","L2TP","OpenVPN"];
 const L=(()=>{
-  const NEW_PER_DAY=6,MAX_SESSION=24;
+  const MAX_SESSION=30;
+  // paliers d'apprentissage : un nouveau port doit être retrouvé 3 fois dans la session,
+  // à des écarts qui grandissent, avant d'obtenir une date de révision
+  const STEP_GAP=[0,3,10];
   const P=()=>document.getElementById("l-panel");
   const items=ORDER.map(n=>DATA.find(e=>e.n===n));
-  let queue=[],cur=null,total=0,done=0,okCount=0,t0;
+  let queue=[],cur=null,total=0,done=0,okCount=0,t0,session=[],recap=false;
 
   const srs=()=>{if(!DB.d.srs)DB.d.srs={};return DB.d.srs;};
+  const cfg=()=>{if(!DB.d.cfg)DB.d.cfg={newPerDay:6,sprint:true};return DB.d.cfg;};
   const addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);
     return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
-  const dueCount=(k=today())=>items.filter(e=>srs()[e.n]&&srs()[e.n].due<=k).length;
+  const capIv=iv=>cfg().sprint?Math.min(iv,4):iv;   // mode examen : rien ne tombe après l'oral
+  const dueCount=()=>items.filter(e=>srs()[e.n]&&srs()[e.n].due<=today()).length;
   const dueTomorrow=()=>items.filter(e=>srs()[e.n]&&srs()[e.n].due===addDays(1)).length;
   const ancres=()=>items.filter(e=>srs()[e.n]&&srs()[e.n].iv>=7).length;
+  const newLeft=()=>Math.min(Math.max(0,cfg().newPerDay-(DB.day().stats.srs_new||0)),items.filter(e=>!srs()[e.n]).length);
+  const todayNew=()=>items.filter(e=>srs()[e.n]&&srs()[e.n].seenOn===today());
+  const hoursSince=()=>DB.d.lastSession?(Date.now()-DB.d.lastSession)/3600000:99;
 
-  function next(){ // appelé par show('learn')
-    const S=srs(),t=DB.day();
+  function next(){
+    const S=srs();
     const due=items.filter(e=>S[e.n]&&S[e.n].due<=today());
-    const left=Math.max(0,NEW_PER_DAY-(t.stats.srs_new||0));
-    const fresh=items.filter(e=>!S[e.n]).slice(0,left);
+    const fresh=items.filter(e=>!S[e.n]).slice(0,newLeft());
     if(!due.length&&!fresh.length)return allDone();
-    // on mélange les familles (entrelacement) plutôt que de réviser par paquets
-    queue=shuffle(due).slice(0,MAX_SESSION-fresh.length).map(e=>({e}));
-    fresh.forEach((e,i)=>queue.splice(Math.min(queue.length,i*3),0,{e,isNew:true}));
-    total=queue.length;done=0;okCount=0;step();
+    queue=shuffle(due).slice(0,MAX_SESSION).map(e=>({e}));          // familles mélangées
+    fresh.forEach((e,i)=>queue.splice(Math.min(queue.length,i*3),0,{e,isNew:true,steps:STEP_GAP.length-1}));
+    total=queue.length;done=0;okCount=0;session=[];recap=false;step();
+  }
+  function startExpress(){
+    const list=todayNew();if(!list.length)return next();
+    queue=shuffle(list).map(e=>({e,express:true}));total=queue.length;done=0;okCount=0;session=[];recap=false;step();
   }
   function hud(){
     document.getElementById("l-stats").innerHTML=`Carte <b>${Math.min(done+1,total)}/${total}</b> · Justes <b>${okCount}</b> · Ancrés <b>${ancres()}/${items.length}</b>`;
     document.getElementById("l-bar").style.width=(done/Math.max(1,total)*100)+"%";
   }
+  function settingsHTML(){
+    const c=cfg();
+    return `<div style="margin-top:18px;border-top:1px solid var(--line);padding-top:14px">
+      <div style="color:var(--dim);font-size:14px;margin-bottom:8px">⚙️ Nouveaux ports par jour</div>
+      <div class="modes">${[6,12,20].map(n=>`<button data-np="${n}" class="${c.newPerDay===n?"on":""}">${n}</button>`).join("")}</div>
+      <label style="display:block;margin-top:10px;color:var(--dim);font-size:14px;cursor:pointer">
+        <input type="checkbox" id="l-sprint" ${c.sprint?"checked":""}> Mode examen : révisions rapprochées (jamais plus de 4 jours)</label></div>`;
+  }
+  function bindSettings(){
+    P().querySelectorAll("[data-np]").forEach(b=>b.onclick=()=>{cfg().newPerDay=+b.dataset.np;DB.save();
+      P().querySelectorAll("[data-np]").forEach(x=>x.classList.toggle("on",x===b));renderHome();});
+    const c=document.getElementById("l-sprint");if(c)c.onchange=()=>{cfg().sprint=c.checked;DB.save();};
+  }
   function allDone(){
+    DB.d.lastSession=Date.now();DB.save();
     document.getElementById("l-stats").innerHTML=`Ancrés <b>${ancres()}/${items.length}</b>`;
     document.getElementById("l-bar").style.width="100%";
-    const dem=dueTomorrow(),vus=items.filter(e=>srs()[e.n]).length;
-    P().innerHTML=`<div style="text-align:center"><div style="font-size:46px">✅</div><h2 style="margin:6px 0">Révision du jour terminée</h2>
-      <p style="color:var(--dim);max-width:520px;margin:0 auto 14px;line-height:1.6">Tu as vu ${vus}/${items.length} ports. Prochaine session : <b style="color:var(--txt)">${dem} carte(s) demain</b>.<br>
-      Revenir demain vaut mieux que d'enchaîner aujourd'hui : c'est l'oubli partiel qui fixe la mémoire.</p>
-      <div class="chips"><span class="chip">Ancrés : ${ancres()}</span><span class="chip">Vus : ${vus}</span><span class="chip">À revoir demain : ${dem}</span></div>
-      <p style="margin-top:18px">En attendant, les jeux qui font travailler autrement :</p>
+    const dem=dueTomorrow(),vus=items.filter(e=>srs()[e.n]).length,exp=todayNew().length;
+    P().innerHTML=`<div style="text-align:center"><div style="font-size:46px">✅</div><h2 style="margin:6px 0">Rien à réviser pour le moment</h2>
+      <p style="color:var(--dim);max-width:520px;margin:0 auto 14px;line-height:1.6">Tu as vu ${vus}/${items.length} ports. Prochaine session : <b style="color:var(--txt)">${dem} carte(s) demain</b>.</p>
+      <div class="chips"><span class="chip">Ancrés : ${ancres()}</span><span class="chip">Vus : ${vus}</span><span class="chip">Demain : ${dem}</span></div>
+      ${exp?`<p style="margin-top:18px">🔁 <b>Révision express</b> — repasser les ${exp} port(s) appris aujourd'hui${hoursSince()>2?" (ça fait un moment, c'est le bon moment)":""} :</p>
+        <button id="l-exp">Révision express (${exp})</button>`:""}
+      <p style="margin-top:18px">Les jeux qui font travailler autrement :</p>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <button onclick="show('firewall')">🛡️ Pare-feu</button><button class="sec" onclick="show('match')">🔗 Relier</button><button class="sec" onclick="show('ranked')">🏆 Ranked</button></div>
-      <p style="margin-top:16px"><button class="sec" id="l-ahead">Réviser quand même 10 cartes en avance</button></p></div>`;
-    document.getElementById("l-ahead").onclick=()=>{
-      const S=srs();queue=shuffle(items.filter(e=>S[e.n])).slice(0,10).map(e=>({e,ahead:true}));
-      total=queue.length;done=0;okCount=0;step();};
+        <button class="sec" onclick="show('firewall')">🛡️ Pare-feu</button><button class="sec" onclick="show('match')">🔗 Relier</button><button class="sec" onclick="show('ranked')">🏆 Ranked</button></div>
+      ${settingsHTML()}</div>`;
+    bindSettings();
+    const b=document.getElementById("l-exp");if(b)b.onclick=startExpress;
   }
   function step(){
-    if(!queue.length)return next();
+    if(!queue.length)return recap?allDone():startRecap();
     cur=queue.shift();hud();
     cur.isNew&&!cur.shown?fiche():question();
   }
+  // récap de fin de session : on repasse en saisie ce qui a été appris ou raté aujourd'hui
+  function startRecap(){
+    const list=[...new Set(session)].filter(e=>srs()[e.n]&&srs()[e.n].seenOn===today()).slice(0,8);
+    if(!list.length)return allDone();
+    recap=true;queue=shuffle(list).map(e=>({e,recap:true}));total=queue.length;done=0;
+    P().innerHTML=`<div style="text-align:center"><h2>🔁 Récap de la session</h2>
+      <p style="color:var(--dim);max-width:480px;margin:0 auto 14px">Dernier passage sur les ${list.length} port(s) travaillés aujourd'hui, en saisie. Un port raté ici revient dès demain.</p>
+      <button id="l-go">C'est parti (Entrée)</button></div>`;
+    const b=document.getElementById("l-go");setTimeout(()=>b.focus(),150);b.onclick=step;
+  }
   function fiche(){
     const e=cur.e;cur.shown=true;
-    P().innerHTML=`<div class="srs-card"><div class="fiche">🆕 Nouveau port — lis-le, puis on te le demandera</div>
+    P().innerHTML=`<div class="srs-card"><div class="fiche">🆕 Nouveau port — lis-le, puis on te le demandera 3 fois dans la session</div>
       <div class="big" style="font-size:38px">${e.n}</div><div class="big" style="color:var(--ok);font-size:38px">${portsTxt(e)}</div>
       <div class="hint">${e.d}</div></div>
-      <div class="feedback" style="background:rgba(77,210,255,.08);color:var(--txt)">💡 ${TIPS[e.n]||""}</div>
+      <div class="feedback" style="background:rgba(185,140,255,.1);color:var(--txt);text-align:left">🎓 <b>À quoi ça sert</b> — ${e.w||e.d}</div>
+      <div class="feedback" style="background:rgba(77,210,255,.08);color:var(--txt);text-align:left">💡 <b>Pour le retenir</b> — ${TIPS[e.n]||""}</div>
       <div style="text-align:center;margin-top:16px"><button id="l-go">J'ai lu (Entrée)</button></div>`;
     const b=document.getElementById("l-go");setTimeout(()=>b.focus(),150);
     b.onclick=()=>{queue.unshift(cur);step();};
   }
   function question(){
-    const e=cur.e,S=srs(),st=S[e.n],reps=st?st.reps:0;
-    // QCM tant que c'est tout neuf, saisie ensuite : on augmente l'effort au fur et à mesure
-    const mode=reps<1?"qcm":"type";
+    const e=cur.e,st=srs()[e.n],reps=st?st.reps:0;
+    const mode=(cur.recap||cur.express)?"type":(reps<1&&cur.steps===STEP_GAP.length-1?"qcm":"type");
     const p2n=Math.random()<.5,port=rnd(e.p);
     t0=Date.now();
-    const head=`<div class="question"><div class="lbl">${p2n?"Quel protocole utilise le port…":"Quel(s) port(s) pour…"}</div>
-      <div class="big">${p2n?port:e.n}</div><div class="hint">${mode==="qcm"?"Touches 1 à 4 ou clic":(!p2n&&e.p.length>1?`${e.p.length} ports à donner`:"De tête, sans regarder")}</div></div>`;
+    const pal=cur.steps!=null&&cur.steps>=0&&cur.isNew?`<span class="chip">passage ${STEP_GAP.length-cur.steps}/${STEP_GAP.length}</span>`:"";
+    const head=`<div class="question"><div class="lbl">${cur.recap?"Récap · ":""}${p2n?"Quel protocole utilise le port…":"Quel(s) port(s) pour…"}</div>
+      <div class="big">${p2n?port:e.n}</div><div class="hint">${mode==="qcm"?"Touches 1 à 4 ou clic":(!p2n&&e.p.length>1?`${e.p.length} ports à donner`:"De tête, sans regarder")}</div>
+      <div class="chips">${pal}</div></div>`;
     if(mode==="qcm"){
-      const others=shuffle(items.filter(x=>x!==e&&(srs()[x.n]||true))).slice(0,3);
-      const ch=shuffle([e,...others]);
+      const ch=shuffle([e,...shuffle(items.filter(x=>x!==e)).slice(0,3)]);
       P().innerHTML=head+`<div class="qcm">${ch.map((c,i)=>`<button class="sec" data-i="${i}">${i+1}. ${p2n?c.n:c.p.join(" et ")}</button>`).join("")}</div>`;
       let used=false;
       const pick=i=>{if(used)return;used=true;document.onkeydown=null;
@@ -448,12 +487,13 @@ const L=(()=>{
                :[...new Set(nums(I.value))].sort((a,b)=>a-b).join()===[...e.p].sort((a,b)=>a-b).join());};
     }
   }
-  // planification : intervalles qui s'allongent, et retour à zéro en cas d'oubli
+  function register(e){const S=srs();if(!S[e.n])S[e.n]={ease:2.5,iv:0,due:today(),reps:0,lapses:0,seenOn:today()};DB.save();}
   function schedule(e,ok,sec){
-    const S=srs();const st=S[e.n]||(S[e.n]={ease:2.5,iv:0,due:today(),reps:0,lapses:0});
+    const S=srs();const st=S[e.n]||(S[e.n]={ease:2.5,iv:0,due:today(),reps:0,lapses:0,seenOn:today()});
+    st.seenOn=today();
     if(ok){
       st.reps++;st.ease=Math.min(2.8,st.ease+(sec<6?.1:-.05));
-      st.iv=st.reps===1?1:st.reps===2?3:Math.round(st.iv*st.ease);
+      st.iv=capIv(st.reps===1?1:st.reps===2?3:Math.round(st.iv*st.ease));
       st.due=addDays(st.iv);
     }else{st.lapses++;st.reps=0;st.iv=0;st.ease=Math.max(1.3,st.ease-.2);st.due=today();}
     DB.save();
@@ -461,25 +501,38 @@ const L=(()=>{
   function grade(ok){
     const e=cur.e,sec=(Date.now()-t0)/1000,isNew=!srs()[e.n];
     if(isNew)DB.stat("srs_new");
-    schedule(e,ok,sec);DB.seen(e,ok);
+    session.push(e);DB.seen(e,ok);
+    // un nouveau port ne reçoit sa date qu'après ses 3 passages réussis
+    const learning=cur.isNew&&cur.steps>0;
+    if(ok&&learning){
+      cur.steps--;okCount++;DB.stat("learn_ok");
+      if(isNew)register(e);                          // fiche créée, la date viendra après les paliers
+      const gap=STEP_GAP[STEP_GAP.length-1-cur.steps]||3;
+      queue.splice(Math.min(queue.length,gap),0,cur);
+      done++;hud();
+      P().insertAdjacentHTML("beforeend",`<div class="feedback ok">✔ <span class="ans">${e.n} → ${portsTxt(e)}</span> — on te le redemande dans quelques cartes<br><small>💡 ${TIPS[e.n]||e.d}</small></div>
+        <div style="text-align:center;margin-top:12px"><button id="l-nx">Continuer (Entrée)</button></div>`);
+      const b=document.getElementById("l-nx");setTimeout(()=>b.focus(),250);b.onclick=step;return;
+    }
+    if(ok&&(cur.recap||cur.express))register(e);else schedule(e,ok,sec);
     if(ok){okCount++;DB.stat("learn_ok");DB.best("learn",ancres());done++;hud();
-      P().insertAdjacentHTML("beforeend",`<div class="feedback ok">✔ <span class="ans">${e.n} → ${portsTxt(e)}</span> — revu dans ${srs()[e.n].iv} jour(s)<br><small>💡 ${TIPS[e.n]||e.d}</small></div>
+      P().insertAdjacentHTML("beforeend",`<div class="feedback ok">✔ <span class="ans">${e.n} → ${portsTxt(e)}</span> — revu dans ${srs()[e.n].iv} jour(s)<br><small>🎓 ${e.w||e.d}</small></div>
         <div style="text-align:center;margin-top:12px"><button id="l-nx">Continuer (Entrée)</button></div>`);
       const b=document.getElementById("l-nx");setTimeout(()=>b.focus(),250);b.onclick=step;
     }else{
-      // erreur : on réécrit la bonne réponse (ça ancre bien mieux que de simplement la lire)
-      P().insertAdjacentHTML("beforeend",`<div class="feedback bad">✘ Raté. La réponse : <span class="ans">${e.n} → ${portsTxt(e)}</span><br><small>💡 ${TIPS[e.n]||e.d}</small></div>
+      if(cur.isNew)cur.steps=STEP_GAP.length-1;      // raté : le port recommence ses passages
+      P().insertAdjacentHTML("beforeend",`<div class="feedback bad">✘ Raté. La réponse : <span class="ans">${e.n} → ${portsTxt(e)}</span><br><small>🎓 ${e.w||e.d}</small><br><small>💡 ${TIPS[e.n]||""}</small></div>
         <div style="margin-top:12px"><div class="hint" style="margin-bottom:6px">Réécris-la pour l'ancrer : tape <b>${e.p.join(" ")}</b></div>
         <input type="text" id="l-fix" autocomplete="off" inputmode="numeric" placeholder="${e.p.join(" ")}"></div>`);
       const F=document.getElementById("l-fix");setTimeout(()=>F.focus(),250);
       F.onkeydown=ev=>{if(ev.key!=="Enter")return;
         if([...new Set(nums(F.value))].sort((a,b)=>a-b).join()===[...e.p].sort((a,b)=>a-b).join()){
-          F.disabled=true;done++;queue.splice(Math.min(queue.length,3),0,{e});step();
+          F.disabled=true;done++;queue.splice(Math.min(queue.length,3),0,cur);step();
         }else{F.style.borderColor="var(--bad)";F.value="";}};
     }
   }
-  const newLeft=()=>Math.max(0,NEW_PER_DAY-(DB.day().stats.srs_new||0))&&Math.min(Math.max(0,NEW_PER_DAY-(DB.day().stats.srs_new||0)),items.filter(e=>!srs()[e.n]).length);
-  return {next,load:()=>{},dueCount,dueTomorrow,ancres,newLeft,todo:()=>dueCount()+newLeft()};
+  return {next,load:()=>{},dueCount,dueTomorrow,ancres,newLeft,express:()=>todayNew().length,
+          todo:()=>dueCount()+newLeft()};
 })();
 
 // ---------- BASE DE DONNÉES (localStorage) ----------
@@ -561,8 +614,9 @@ function renderHome(){
     {t:L.todo()?`Révision du jour — <b>${L.dueCount()}</b> à revoir, <b>${L.newLeft()}</b> nouveau(x)`:"Révision du jour — tout est à jour ✨",s:"learn",done:L.todo()===0,go:"Réviser"},
     {t:"Une situation de Pare-feu",s:"firewall",done:(st.fw_scn||0)>=1,go:"Jouer"},
     {t:"Une partie Ranked pour mesurer",s:"ranked",done:(st.ranked_played||0)>=1,go:"Se tester"},
+    ...(L.todo()===0&&L.express()?[{t:`🔁 2<sup>e</sup> passage du jour — <b>${L.express()}</b> port(s) appris aujourd'hui`,s:"learn",done:false,go:"Repasser"}]:[]),
   ];
-  document.getElementById("home-plan").innerHTML=`<b>🗓️ Ton programme du jour</b> <span style="color:var(--dim);font-size:13px">— 10 à 15 minutes</span>
+  document.getElementById("home-plan").innerHTML=`<b>🗓️ Ton programme du jour</b> <span style="color:var(--dim);font-size:13px">— environ ${Math.max(5,Math.round((L.dueCount()*0.3+L.newLeft()*1.2)+4))} minutes</span>
     ${steps.map((x,i)=>`<div class="step ${x.done?"done":""}" onclick="show('${x.s}')"><div class="n">${x.done?"✔":i+1}</div><div>${x.t}</div><div class="go">${x.done?"refaire":x.go+" →"}</div></div>`).join("")}`;
 }
 
@@ -592,7 +646,7 @@ function renderProfile(){
     return `<h3 class="sec">${k} <small style="color:var(--dim);font-weight:400">— ${pct}% maîtrisé</small></h3><div class="livret">${es.map(e=>{const m=DB.mastery(e);
       return `<div class="stk ${m<0?"unk":""}" style="border-color:${m>=5?"#39ff88":m>=3?"#4dd2ff":"var(--line)"}" onclick="this.classList.toggle('open')">
         <div class="nm">${e.n}</div><div class="pt">${m<0?"???":pStr(e)}</div><div class="st">${m<0?"jamais vu":"★".repeat(m)+"☆".repeat(5-m)}</div>
-        <div class="tip">${m<0?"Joue pour le découvrir !":"💡 "+(TIPS[e.n]||e.d)}</div></div>`;}).join("")}</div>`;}).join("");
+        <div class="tip">${m<0?"Joue pour le découvrir !":"🎓 "+(e.w||e.d)+"<br>💡 "+(TIPS[e.n]||"")}</div></div>`;}).join("")}</div>`;}).join("");
   const hist=D.ranked.hist.slice(-8).reverse();
   document.getElementById("prof-body").innerHTML=`
   <div class="panel" style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
@@ -876,7 +930,7 @@ const FW=(()=>{
     $("fw-a").disabled=$("fw-b").disabled=true;
     const k=packets[pi],good=allow===k.ok;log.push({...k,allow,good});DB.seen(k.e,good);
     if(good){streak++;score+=10+Math.min(streak,10)*2;}else streak=0;hud();
-    const why=`port <b>${k.p}</b> = <span class="ans">${k.e.n}</span> (${k.e.d}) → ${k.ok?"nécessaire ici":"pas utile ici"}`;
+    const why=`port <b>${k.p}</b> = <span class="ans">${k.e.n}</span> → ${k.ok?"nécessaire ici":"pas utile ici"}<br><small>🎓 ${k.e.w||k.e.d}</small>`;
     $("fw-fb").className="feedback "+(good?"ok":"bad");
     $("fw-fb").innerHTML=(allow===null?"⏱ Trop lent ! ":good?"✔ ":"✘ ")+why+(good?"":`<br><small>💡 ${TIPS[k.e.n]||""}</small>`);
     pi++;setTimeout(packet,good?1300:3200);

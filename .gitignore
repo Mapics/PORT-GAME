@@ -1,6 +1,9 @@
 # Documents de cours (ne pas publier)
 *.pdf
 
+# Notes de projet (transférées à la main)
+CLAUDE.md
+
 # Fichiers Windows
 desktop.ini
 Thumbs.db
